@@ -1,0 +1,456 @@
+html {
+  font-family: Arial;
+  display: inline-block;
+  text-align: center;
+}
+
+p {
+  font-size: 1rem;
+}
+
+h4 {
+  font-size: 0.9rem;
+}
+
+body {
+  margin: 0;
+  background-color: #f5f5f5;
+}
+
+.topnav {
+    overflow: hidden;
+    background-color: #4F6F52;
+    color: white;
+    font-size: 1.2rem;
+    padding: 1rem;
+    display: flex; /* Flexbox layout */
+    justify-content: center; /* Center content */
+    align-items: center; /* Vertically center items */
+    position: relative; /* Allow absolute positioning inside */
+}
+
+.topnav h1 {
+    margin: 0;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.hamburger {
+    position: absolute;
+    left: 0; /* Align hamburger to the left */
+    margin-left: 1rem;
+    font-size: 30px;
+    color: white;
+    cursor: pointer;
+}
+
+.left-content {
+    float: left;
+    width: 200px;
+    background-color: #739072;
+    height: 200vh;
+    padding-top: 20px;
+    color: white;
+}
+
+.nav {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-link {
+    color: white;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    padding: 10px;
+    display: block;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    border-radius: 5px; /* เพิ่มความโค้งให้กับเมนู */
+}
+
+.nav-link:hover {
+    background-color: #66bb6a;
+}
+
+.nav-link.active {
+    color: white;
+    background-color: transparent;
+    border: none;
+}
+
+.content {
+  padding: 10px;
+}
+
+.cards {
+    display: block;
+    margin: auto;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-gap: 2rem;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.card {
+    display: block;
+    margin: auto;
+    background-color: white;
+    box-shadow: 0px 0px 10px 1px rgba(140, 140, 140, 0.5);
+    border: 1px solid #739072;
+    border-radius: 15px;
+    padding: 20px;
+}
+
+.card.header {
+    display: block;
+    margin: auto;
+    background-color: #D2E3C8;
+    color:#4F6F52;
+    padding: 10px;
+}
+
+.reading {
+  font-size: 1.2rem;
+}
+
+.packet {
+  color: #bebebe;
+}
+
+.temperatureColor {
+  color: #fd7e14;
+}
+
+.humidityColor {
+  color: #1b78e2;
+}
+
+.rainColor {
+  color: #4F6F52;
+}
+
+.soilColor{
+  color: #AB886D;
+}
+
+.statusreadColor {
+  color: #702963;
+  font-size: 12px;
+}
+
+.username {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    color: white;
+    font-size: 1rem;
+}
+
+.fas.fa-user {
+  position: absolute;
+  top: 15px; /* Align with hamburger and username */
+  right: 120px; /* Adjust spacing from the right */
+  color: white;
+  font-size: 1.5rem; /* Adjust size if needed */
+}
+
+.LEDColor {
+  color: #183153;
+}
+
+/* ----------------------------------- Toggle Switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 24px;
+}
+
+.switch input {
+  display: none;
+}
+
+.sliderTS {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #D3D3D3;
+  transition: .4s;
+  border-radius: 34px;
+}
+
+.sliderTS:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 4px;
+  bottom: 4px;
+  background-color: #f7f7f7;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .sliderTS {
+  background-color: #00878F;
+}
+
+input:focus + .sliderTS {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .sliderTS:before {
+  transform: translateX(26px);
+}
+
+.sliderTS:after {
+  content: 'OFF';
+  color: white;
+  display: block;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 70%;
+  font-size: 10px;
+  font-family: Verdana, sans-serif;
+}
+
+input:checked + .sliderTS:after {
+  left: 25%;
+  content: 'ON';
+}
+
+input:disabled + .sliderTS {
+  opacity: 0.3;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* สไตล์สำหรับการแจ้งเตือน */
+.notification {
+  display: none;
+  padding: 15px;
+  margin-top: 10px;
+  border-radius: 5px;
+}
+
+.success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.error {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.tab-btn {
+  display: inline-block;
+  cursor: pointer; /* ให้มั่นใจว่าปุ่มสามารถคลิกได้ */
+  margin: auto;
+  font-size: 1rem;
+  background-color: #ffffff;
+  color: #4F6F52;
+  position: relative;
+  display: inline-block;
+  width: 20%;
+  height: 80%;
+  border-radius: 10px; /* เพิ่มความโค้งให้กับเมนู */
+}
+
+.fromset {
+  display: block;
+  margin: auto;
+  background-color: #D2E3C8;
+  color: #4F6F52;
+  width: 20%;
+  height: 25%;
+}
+
+.fromset {
+  display: block;
+  margin: auto;
+  background-color: #D2E3C8;
+  color: #4F6F52;
+  width: 20%;
+  height: 25%;
+}
+
+
+.tab-btn:hover {
+  background-color: #66bb6a;
+  color: #ffffff;
+}
+
+.settime{
+  font-size: 1.5rem;
+  background-color: #ffffff;
+  color: #739072;
+  position: relative;
+  display: inline-block;
+  width: 30%;
+  height: 25%;
+  border-radius: 5px; /* เพิ่มความโค้งให้กับเมนู */
+}
+
+.quizoption {
+  display: block;
+  margin: auto;
+  top: 50%;
+  font-size: 1rem;
+  color: #4F6F52;
+  position: relative; 
+  display: inline-block;
+  padding: 20px;
+  width: 20%;
+  height: 80%;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+
+/* เพิ่ม media queries สำหรับหน้าจอขนาดเล็ก */
+@media (max-width: 600px) {
+    .left-content {
+        width: 100%;
+        height: auto;
+        position: relative;
+        float: none; /* เอา float ออก */
+    }
+
+    .left-content.active {
+        display: block; /* แสดงเมนูเมื่อมีการคลิก */
+        transform: translateX(0); /* แสดงเมนู */
+    }
+
+    .nav-link {
+        text-align: center;
+        width: 100%; /* ขยายให้เต็มความกว้าง */
+    }
+
+    .main-content {
+        margin-left: 0; /* ไม่ต้องมี margin-left สำหรับ mobile */
+        padding: 10px; /* เพิ่ม padding นิดหน่อย */
+    }
+
+    .cards {
+        grid-template-columns: 1fr; /* จัดการ์ดให้แสดงในแนวตั้ง */
+    }
+
+    .hamburger {
+        display: block; /* แสดง hamburger menu */
+        font-size: 30px;
+        color: white;
+        position: absolute;
+        top: 10px;
+        left: 20px;
+        cursor: pointer;
+    }
+
+    .username {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      color: white;
+      font-size: 1rem;
+  }
+
+    .topnav {
+        overflow: hidden;
+        background-color: #4F6F52;
+        color: white;
+        font-size: 0.95rem;
+        padding: 2rem;
+        display: flex; /* Flexbox layout */
+        justify-content: center; /* Center content */
+        align-items: center; /* Vertically center items */
+        position: relative; /* Allow absolute positioning inside */
+    }
+
+    .fas.fa-user {
+      position: absolute;
+      top: 15px; /* Align with hamburger and username */
+      right: 120px; /* Adjust spacing from the right */
+      color: white;
+      font-size: 1.5rem; /* Adjust size if needed */
+    }
+    .tab-btn {
+      display: inline-block;
+      cursor: pointer; /* ให้มั่นใจว่าปุ่มสามารถคลิกได้ */
+      margin: auto;
+      font-size: 1rem;
+      background-color: #ffffff;
+      color: #4F6F52;
+      position: relative;
+      display: inline-block;
+      width: 30%;
+      height: 80%;
+      border-radius: 10px; /* เพิ่มความโค้งให้กับเมนู */
+    }
+
+    .fromset {
+      display: block;
+      margin: auto;
+      background-color: #D2E3C8;
+      color: #4F6F52;
+      width: 60%;
+      height: 25%;
+    }
+    .fromsettime{
+      display: block;
+      margin: auto;
+      background-color: #D2E3C8;
+      color: #4F6F52;
+      width: 80%;
+      height: 25%;
+    }
+
+
+
+    @media (max-width: 600px) {
+        .hamburger {
+            display: block; /* แสดงปุ่ม hamburger บนมือถือ */
+            margin-left: auto; /* จัดให้ชิดขวา */
+        }
+
+        .left-content {
+            display: none; /* ซ่อนเมนูแถบด้านข้างบนมือถือ */
+            width: 100%; /* ปรับความกว้างให้เต็มเมื่อเปิด */
+            position: absolute; /* ใช้ position เพื่อควบคุม */
+            top: 60px; /* ให้เริ่มจากด้านล่างของ topnav */
+            left: 0; /* ให้ชิดซ้าย */
+            background-color: #739072;
+            z-index: 1000; /* ให้แน่ใจว่าเมนูอยู่ด้านบน */
+        }
+
+        .left-content ul {
+            padding: 0; /* ลด padding ของเมนู */
+        }
+
+        .nav-item {
+            text-align: center; /* จัดให้ตรงกลาง */
+        }
+
+        .main-content {
+            margin-left: 0; /* ปรับ margin ของเนื้อหาให้ไม่มี */
+        }
+
+        .left-content.active {
+            display: block; /* แสดงเมนูเมื่อมันถูกเปิด */
+        }
+        .hamburger {
+          display: block; /* แสดง hamburger menu */
+          font-size: 30px;
+          color: white;
+          position: absolute;
+          top: 10px;
+          left: 20px;
+          cursor: pointer;
+      }
+    }
+}

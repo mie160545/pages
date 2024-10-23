@@ -1,0 +1,238 @@
+html {
+    font-family: Arial;
+    text-align: center;
+}
+
+body {
+    margin: 0; 
+    background-color: #f5f5f5;
+}
+
+
+.topnav {
+    overflow: hidden;
+    background-color: #4F6F52;
+    color: white;
+    font-size: 1.2rem;
+    padding: 1rem;
+    display: flex; /* Flexbox layout */
+    justify-content: center; /* Center content */
+    align-items: center; /* Vertically center items */
+    position: relative; /* Allow absolute positioning inside */
+}
+
+.topnav h1 {
+    margin: 0;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.hamburger {
+    position: absolute;
+    left: 0; /* Align hamburger to the left */
+    margin-left: 1rem;
+    font-size: 30px;
+    color: white;
+    cursor: pointer;
+}
+
+.left-content {
+    float: left;
+    width: 200px;
+    background-color: #739072;
+    height: 100vh;
+    padding-top: 20px;
+    color: white;
+}
+
+.nav {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-link {
+    color: white;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    padding: 10px;
+    display: block;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    border-radius: 5px; /* เพิ่มความโค้งให้กับเมนู */
+}
+
+.nav-link:hover {
+    background-color: #66bb6a;
+}
+
+.nav-link.active {
+    color: white;
+    background-color: transparent;
+    border: none;
+}
+
+.main-content {
+    margin-left: 220px;
+    padding: 20px;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-gap: 2rem;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.card {
+    background-color: white;
+    box-shadow: 0px 0px 10px 1px rgba(140, 140, 140, 0.5);
+    border: 1px solid #739072;
+    border-radius: 15px;
+    padding: 20px;
+}
+
+.card.header {
+    background-color: #D2E3C8;
+    color:#4F6F52;
+    padding: 10px;
+}
+
+.temperatureColor {
+    color: #fd7e14;
+}
+
+.humidityColor {
+    color: #1b78e2;
+}
+
+.rainColor {
+    color: 
+    #4F6F52;
+}
+
+.soilColor{
+    color: #AB886D;
+}
+
+.statusreadColor {
+    color: #702963;
+    font-size: 12px;
+}
+
+.username {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: white;
+    font-size: 1rem;
+}
+.fas.fa-user {
+    position: absolute;
+    top: 15px; /* Align with hamburger and username */
+    right: 120px; /* Adjust spacing from the right */
+    color: white;
+    font-size: 1.5rem; /* Adjust size if needed */
+}
+.container {
+    width: 90%; /* ขยายความกว้างของกรอบให้ครอบคลุมหน้าจอมากขึ้น */
+    margin: 0 auto; /* ตั้งให้กราฟอยู่ตรงกลาง */
+}
+
+#myChart {
+    width: 100%;
+    height: auto;
+}
+
+
+/* เพิ่ม media queries สำหรับหน้าจอขนาดเล็ก */
+@media (max-width: 600px) {
+    .left-content {
+        width: 100%;
+        height: auto;
+        position: relative;
+        float: none; /* เอา float ออก */
+    }
+
+    .nav-link {
+        text-align: center;
+        width: 100%; /* ขยายให้เต็มความกว้าง */
+    }
+
+    .main-content {
+        margin-left: 0; /* ไม่ต้องมี margin-left สำหรับ mobile */
+        padding: 10px; /* เพิ่ม padding นิดหน่อย */
+    }
+
+    .cards {
+        grid-template-columns: 1fr; /* จัดการ์ดให้แสดงในแนวตั้ง */
+    }
+
+    .hamburger {
+        display: none; /* ซ่อนปุ่ม hamburger โดยเริ่มต้น */
+        font-size: 30px;
+        color: white;
+        cursor: pointer;
+        top: 10px;
+        left: 20px;
+    }
+    .username {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        color: white;
+        font-size: 1rem;
+    }
+    .fas fa-user{
+    position: absolute;
+    top: 10px;
+    right: 80px;
+    color: white;
+}
+    .topnav {
+        overflow: hidden;
+        background-color: #4F6F52;
+        color: white;
+        font-size: 0.95rem;
+        padding: 2rem;
+        display: flex; /* Flexbox layout */
+        justify-content: center; /* Center content */
+        align-items: center; /* Vertically center items */
+        position: relative; /* Allow absolute positioning inside */
+    }
+
+    @media (max-width: 600px) {
+        .hamburger {
+            display: block; /* แสดงปุ่ม hamburger บนมือถือ */
+            margin-right: auto; /* จัดให้ชิดซ้าย */
+        }
+
+        .left-content {
+            display: none; /* ซ่อนเมนูแถบด้านข้างบนมือถือ */
+            width: 100%; /* ปรับความกว้างให้เต็มเมื่อเปิด */
+            position: absolute; /* ใช้ position เพื่อควบคุม */
+            top: 60px; /* ให้เริ่มจากด้านล่างของ topnav */
+            left: 0; /* ให้ชิดซ้าย */
+            background-color: #739072;
+            z-index: 1000; /* ให้แน่ใจว่าเมนูอยู่ด้านบน */
+        }
+
+        .left-content ul {
+            padding: 0; /* ลด padding ของเมนู */
+        }
+
+        .nav-item {
+            text-align: center; /* จัดให้ตรงกลาง */
+        }
+
+        .main-content {
+            margin-left: 0; /* ปรับ margin ของเนื้อหาให้ไม่มี */
+        }
+
+        .left-content.active {
+            display: block; /* แสดงเมนูเมื่อมันถูกเปิด */
+        }
+    }
+}
