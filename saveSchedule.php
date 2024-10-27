@@ -26,6 +26,8 @@ $startTime2 = $_POST['startTime2'];
 $stopTime2 = $_POST['stopTime2'];
 $startTime3 = $_POST['startTime3'];
 $stopTime3 = $_POST['stopTime3'];
+$PUM = $_POST['startTime3'];
+$stopTime3 = $_POST['stopTime3'];
 
 // ตรวจสอบว่าข้อมูลถูกส่งมาอย่างถูกต้องหรือไม่
 echo "Start Time 1: " . $_POST['startTime1'] . "<br>";
@@ -39,7 +41,7 @@ echo "Username: " . $_SESSION['username'] . "<br>";
 // ตรวจสอบว่าข้อมูลครบถ้วนก่อนบันทึก
 if (!empty($startTime1) && !empty($stopTime1) && !empty($startTime2) && !empty($stopTime2) && !empty($startTime3) && !empty($stopTime3)) {
     // SQL สำหรับบันทึกข้อมูลการตั้งเวลาในฐานข้อมูล
-    $sql = "INSERT INTO pump_schedule (start_time1, stop_time1, start_time2, stop_time2, start_time3, stop_time3, username) 
+    $sql = "INSERT INTO pump_schedule (start_time1, stop_time1, start_time2, stop_time2, start_time3, stop_time3, username, PUM_01, PUM_02) 
             VALUES ('$startTime1', '$stopTime1', '$startTime2', '$stopTime2', '$startTime3', '$stopTime3', '{$_SESSION['username']}')";
 
     if ($conn->query($sql) === TRUE) {
@@ -50,8 +52,6 @@ if (!empty($startTime1) && !empty($stopTime1) && !empty($startTime2) && !empty($
 } else {
     echo "กรุณากรอกข้อมูลให้ครบถ้วน";
 }
-
-
 
 // ปิดการเชื่อมต่อฐานข้อมูล
 $conn->close();

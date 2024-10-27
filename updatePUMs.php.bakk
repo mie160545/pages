@@ -1,0 +1,123 @@
+<?php
+// ข้อมูลการเชื่อมต่อฐานข้อมูล
+$servername = "localhost"; // ชื่อเซิร์ฟเวอร์
+$username = "smartframk_smartframk"; // ชื่อผู้ใช้ฐานข้อมูล
+$password = "de3kr_wtzbf_B-d"; // รหัสผ่านฐานข้อมูล
+$dbname = "smartframk_esp32_project"; // ชื่อฐานข้อมูล
+
+function generateRandomId($length = 10)
+{
+  $characters = '0123456789abcdefghijklmnopqrstuvwxyz'; // ตัวเลขและตัวอักษรที่ใช้ในการสุ่ม
+  $charactersLength = strlen($characters);
+  $randomString = '';
+  for ($i = 0; $i < $length; $i++) {
+    $randomString .= $characters[rand(0, $charactersLength - 1)];
+  }
+  return $randomString;
+}
+
+// เชื่อมต่อฐานข้อมูล
+try {
+  $pdo = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+  $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // ตั้งค่าให้แสดงข้อผิดพลาด
+  $pdo->exec("set names utf8"); // ตั้งค่าให้รองรับ UTF-8 (สำหรับภาษาไทย)
+} catch (PDOException $e) {
+  die("Connection failed: " . $e->getMessage()); // ถ้าเชื่อมต่อไม่ได้ ให้แสดงข้อผิดพลาด
+}
+
+//---------------------------------------- ตรวจสอบว่า POST ถูกส่งมาหรือไม่
+if (!empty($_POST)) {
+  // รับค่าจาก POST
+  $id = $_POST['id'];
+  $pumnum = $_POST['pumnum'];
+  $pumstate = $_POST['pumstate'];
+
+  // แสดงข้อความเมื่อได้รับค่า
+  echo "ID: " . $id . " has been updated successfully!<br>";
+
+  // ตรวจสอบชื่อคอลัมน์ที่ถูกต้อง (เฉพาะ PUM_01 หรือ PUM_02)
+  $valid_columns = ['PUM_01', 'PUM_02'];
+  if (!in_array($pumnum, $valid_columns)) {
+    die("Invalid column name.");
+  }
+
+  // 'PUM_1 = test pum'
+  // เตรียม SQL สำหรับอัปเดตข้อมูลสถานะของ PUM
+  $sql = "UPDATE esp32_table_dht11_leds_update SET $pumnum = ? WHERE id = ?";
+  $q = $pdo->prepare($sql);
+  $q->execute([$pumstate, $id]); // ส่งข้อมูลเพื่ออัปเดต
+
+  // แสดงผลลัพธ์ว่าอัปเดตเสร็จสิ้น
+  echo "Updated PUM state to " . $pumstate;
+
+
+  // ดึงข้อมูลจากตาราง esp32_table_dht11_leds_update ตามค่า id
+  $select_sql = "SELECT temperature, humidity, rain, soil, start_time1, stop_time1, start_time2, stop_time2, start_time3, stop_time3 FROM esp32_table_dht11_leds_update WHERE id = ?";
+  $stmt = $pdo->prepare($select_sql);
+  $stmt->execute([$id]);
+  $row = $stmt->fetch(PDO::FETCH_ASSOC); // ดึงข้อมูลมาเก็บใน $row
+
+  // ===============================
+  // Mock Data สำหรับ insert ลงใน esp32_table_dht11_leds_record
+  $mock_id = generateRandomId();
+  $mock_board = $id;
+  $mock_temperature = $row['temperature'];
+  $mock_humidity = $row['humidity'];
+  $mock_rain = $row['rain'];
+  $mock_soil = $row['soil'];
+  $mock_status_read_sensor_dht11 = "SUCCEED";
+  $mock_time = date('H:i:s'); // เวลาปัจจุบัน
+  $mock_date = date('Y-m-d'); // วันที่ปัจจุบัน
+  $mock_start_time1 = $row['start_time1'];
+  $mock_stop_time1 = $row['stop_time1'];
+  $mock_start_time2 = $row['start_time2'];
+  $mock_stop_time2 = $row['stop_time2'];
+  $mock_start_time3 = $row['start_time3'];
+  $mock_stop_time3 = $row['stop_time3'];
+
+
+  // Insert mock data ลงใน esp32_table_dht11_leds_record
+  $insert_sql = "INSERT INTO esp32_table_dht11_leds_record (
+                  id,
+                  board,
+                  temperature, 
+                  humidity, 
+                  rain, 
+                  soil, 
+                  status_read_sensor_dht11, 
+                  PUM_01, 
+                  PUM_02, 
+                  time, 
+                  date,
+                  start_time1,
+                  stop_time1,
+                  start_time2,
+                  stop_time2,
+                  start_time3,
+                  stop_time3
+                ) 
+                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+  $stmt = $pdo->prepare($insert_sql);
+  $stmt->execute([
+    $mock_id,
+    $mock_board,
+    $mock_temperature,
+    $mock_humidity,
+    $mock_rain,
+    $mock_soil,
+    $mock_status_read_sensor_dht11,
+    ($pumnum == "PUM_01" ? $pumstate : "OFF"),
+    ($pumnum == "PUM_02" ? $pumstate : "OFF"),
+    $mock_time,
+    $mock_date,
+    $mock_start_time1,
+    $mock_stop_time1,
+    $mock_start_time2,
+    $mock_stop_time2,
+    $mock_start_time3,
+    $mock_stop_time3
+  ]);
+
+  // แสดงผลว่าการ insert สำเร็จ
+  echo "Record inserted successfully into esp32_table_dht11_leds_record.";
+}

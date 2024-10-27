@@ -119,13 +119,13 @@ if (!isset($_SESSION['username'])) {
       document.getElementById("ESP32_01_LTRD").innerHTML = "NN";
       //------------------------------------------------------------
       
-      Get_Data("esp32_01");
+      Get_Data();
       
       setInterval(myTimer, 5000);
       
       //------------------------------------------------------------
       function myTimer() {
-        Get_Data("esp32_01");
+        Get_Data()
       }
       //------------------------------------------------------------
 
@@ -146,9 +146,8 @@ if (!isset($_SESSION['username'])) {
         }
 
 
-  // เรียกใช้ฟังก์ชันเมื่อมีการอัปเดตข้อมูลจาก ESP32
-      function Get_Data(id) {
-        console.log('hello world')
+    // เรียกใช้ฟังก์ชันเมื่อมีการอัปเดตข้อมูลจาก ESP32
+    function Get_Data() {
         if (window.XMLHttpRequest) {
             xmlhttp = new XMLHttpRequest();
         } else {
@@ -157,7 +156,7 @@ if (!isset($_SESSION['username'])) {
         xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 const myObj = JSON.parse(this.responseText);
-                if (myObj.id == "esp32_01") {
+                if (myObj.id) {
                     document.getElementById("ESP32_01_Temp").innerHTML = myObj.temperature;
                     document.getElementById("ESP32_01_Humd").innerHTML = myObj.humidity;
                     document.getElementById("ESP32_01_Rain").innerHTML = myObj.rain;
@@ -170,7 +169,7 @@ if (!isset($_SESSION['username'])) {
         };
         xmlhttp.open("POST","getdata.php",true);
         xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xmlhttp.send("id="+id);
+        xmlhttp.send();
     }
 
       //------------------------------------------------------------
