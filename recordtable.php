@@ -92,9 +92,11 @@ if (!isset($_SESSION['username'])) {
         <tbody id="tbody_table_record">
             <?php
             include 'database.php'; // เชื่อมต่อไฟล์ database.php
+            session_start();
 
             $num = 0;
-            $sql = 'SELECT * FROM esp32_table_dht11_leds_record ORDER BY date, time';
+            $user_id = $_SESSION['user_id'];
+            $sql = 'SELECT * FROM esp32_table_dht11_leds_record WHERE user_id = ' . $user_id . ' ORDER BY DATE DESC, TIME DESC;';
             $result = $conn->query($sql); // ใช้ $conn ที่ได้จากการเชื่อมต่อ
             
             if ($result->num_rows > 0) {

@@ -1,12 +1,19 @@
 <?php
 include 'database.php'; // เชื่อมต่อฐานข้อมูล
 
+// ตรวจสอบการเชื่อมต่อฐานข้อมูล
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
 // ดึงวันที่ปัจจุบัน
 $currentDate = date('Y-m-d');
 
-// สร้าง SQL ที่กรองข้อมูลเฉพาะวันที่ปัจจุบัน
-$sql = "SELECT * FROM esp32_table_dht11_leds_record WHERE date = '$currentDate' ORDER BY time ASC";
-$result = $conn->query($sql);
+// สร้างคำสั่ง SQL เพื่อดึงข้อมูลตามวันที่ปัจจุบัน
+$sql = $conn->prepare("SELECT date, time, temperature, humidity, rain, soil FROM esp32_table_dht11_leds_record WHERE date = ? ORDER BY time ASC");
+$sql->bind_param('s', $currentDate); // ป้องกัน SQL Injection
+$sql->execute();
+$result = $sql->get_result();
 
 $labels = [];
 $temperature = [];
@@ -14,18 +21,19 @@ $humidity = [];
 $rain = [];
 $soil = [];
 
-
 if ($result->num_rows > 0) {
     while($row = $result->fetch_assoc()) {
-        $labels[] = $row['time']; // ดึงข้อมูลเวลาไปใช้เป็น labels บนแกน X
-        $temperature[] = $row['temperature']; // ดึงข้อมูลอุณหภูมิ
-        $humidity[] = $row['humidity']; // ดึงข้อมูลความชื้น
-        $rain[] = $row['rain']; // ดึงข้อมูลความชื้น
-        $soil[] = $row['soil']; // ดึงข้อมูลความชื้น
+        // รวมวันที่และเวลาเพื่อใช้ใน labels
+        $labels[] = $row['date'] . ' ' . $row['time'];
+        $temperature[] = $row['temperature'];
+        $humidity[] = $row['humidity'];
+        $rain[] = $row['rain'];
+        $soil[] = $row['soil'];
     }
 }
 
 // ปิดการเชื่อมต่อฐานข้อมูล
+$sql->close();
 $conn->close();
 
 // ส่งข้อมูลเป็น JSON กลับไปยัง JavaScript
